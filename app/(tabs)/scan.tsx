@@ -1,10 +1,11 @@
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TextInput, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+// import {  } from 'react-native-gesture-handler';
 
 export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [camData, setCamData] = useState({data: ""});
+  const [camData, setCamData] = useState();
 
   if (!permission) {
     return <View />;
@@ -21,7 +22,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      { camData ? <Text>{camData.data}</Text> :
+      { camData ? <View>
+        <Text>Enter Amount</Text>
+        <TextInput placeholder='Enter Amount' />
+      </View> :
         <CameraView style={styles.camera} facing='back' onBarcodeScanned={(data) => setCamData(data)} >
            
         </CameraView>
