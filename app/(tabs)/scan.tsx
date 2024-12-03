@@ -2,6 +2,7 @@ import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
 import { TextInput, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // import {  } from 'react-native-gesture-handler';
+import { router } from 'expo-router';
 
 export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -22,12 +23,15 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      { camData ? <View>
-        <Text>Enter Amount</Text>
-        <TextInput placeholder='Enter Amount' />
+      {camData ? <View>
+        <Text style={styles.text}>Enter Amount</Text>
+        <TextInput style={styles.input} placeholder='Enter Amount' />
+        <TouchableOpacity style={styles.btn} onPress={() => router.push('/')} >
+          <Text style={styles.btnText}>Pay</Text>
+        </TouchableOpacity>
       </View> :
         <CameraView style={styles.camera} facing='back' onBarcodeScanned={(data) => setCamData(data)} >
-           
+
         </CameraView>
       }
     </View>
@@ -37,6 +41,30 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
 
+  },
+  input: {
+    width: '100%',
+    borderWidth: 0.6,
+    borderRadius: 6,
+    padding: 15,
+    height: 60,
+    borderColor: "#ababab",
+    marginTop: 5,
+   
+  },
+  btn: {
+    backgroundColor: '#ff3456',
+    padding: 15,
+    width: '100%',
+    borderRadius: 60,
+    marginTop: 20,
+    
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: '900',
   },
   message: {
     textAlign: 'center',
@@ -61,6 +89,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#000',
   },
 });
