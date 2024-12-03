@@ -20,7 +20,7 @@ async function sessData() {
 
 export default function History() {
   const [search, onChangeSearch] = React.useState('');
-  const [hist, setHist] = React.useState();
+  const [hist, setHist] = React.useState([]);
 
   sessData().then(outss => {
     axios.get(`${process.env.EXPO_PUBLIC_API_URL}/history`, {
