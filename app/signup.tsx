@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, View, TextInput, Pressable } from "react-native";
+import { Text, Image, StyleSheet, View, TextInput, Pressable} from "react-native";
 import { router, Link } from "expo-router";
 import axios from 'axios';
 import { useState } from "react";
@@ -6,6 +6,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CheckBox from '@react-native-community/checkbox';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const storeDataTemp = async (value: any) => {
     try {
@@ -37,6 +39,12 @@ export default function Signup() {
     const [error, setError] = useState<string>();
     const [passVisible, setPassVisible] = useState<boolean>(true);
     const [passIcon, setPassIcon] = useState<any>(<AntDesign name="eye" size={24} color={"#ff3456"} />);
+
+    const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
+    
+
+    
 
     const checkDataValid = () => {
         if (!isValid(username.trim().toLowerCase(), 1)) {
@@ -108,6 +116,7 @@ export default function Signup() {
    
 
     return (
+       
         <View style={styles.container}>
             <View style={styles.stepContainer}>
                 <View style={styles.company}>
@@ -132,6 +141,12 @@ export default function Signup() {
                         {passIcon}
                     </Pressable>
                 </View>
+
+
+    
+
+                
+
                 <Text style={styles.errMsgBox}>{error || response.message}</Text>
                 <Pressable style={styles.btn} disabled={loading} onPress={checkData}>
                     <Text style={styles.btnText}>Create Account</Text>

@@ -1,11 +1,47 @@
 import { Text, Image, StyleSheet, View } from 'react-native';
+import axios from 'axios';
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+async function sessData() {
+   let output: any;
+   try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+         output = value;
+      } else {
+         output = null
+      }
+   } catch (err: any) {
+      output = err.message
+   }
+   return output;
+};
+
 
 export default function Qrcode() {
+   const [imgg, setImgg] = useState();
+   sessData().then(outss => {
+      axios.get(`${process.env.EXPO_PUBLIC_API_URL}/showqr`, {
+         headers: {
+            'Authorization': `Bearer ${outss}`
+         }
+      })
+         .then(function (response) {
+            setImgg(response.data)
+         })
+         .catch(function (error) {
+            console.log(error.data);
+         })
+   })
+
+
+
    return (
       <View style={styles.container}>
          <View style={styles.stepContainer}>
             <Text style={styles.txt}>Scan and Pay Here</Text>
-            <Image source={{ uri: "https://picsum.photos/300" }} style={styles.img} />
+            <Image source={{ uri: imgg }} style={styles.img} />
          </View>
       </View>
    );

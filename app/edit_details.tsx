@@ -1,8 +1,9 @@
-import { Text, Image, StyleSheet, View, TextInput, Pressable } from 'react-native';
+import { Text, Image, StyleSheet, View, TextInput, Pressable, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'expo-router';
+// import {  } from 'react-native-gesture-handler';
 
 export default function Profile() {
   const [res, setRes] = useState<any>({
@@ -48,33 +49,35 @@ export default function Profile() {
   })
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.stepContainer}>
         <Image source={{ uri: 'https://picsum.photos/100' }} style={styles.img} />
         <Text style={styles.headTxt}>User ID</Text>
         <Text style={styles.valueTxt}>{res.uuid}</Text>
         <Text style={styles.headTxt}>Name</Text>
-        <Text style={styles.valueTxt}>{res.user_name}</Text>
+        <TextInput style={styles.input} placeholder='Username' />
         <Text style={styles.headTxt}>Email</Text>
-        <Text style={styles.valueTxt}>{res.email}</Text>
+        <TextInput style={styles.input} placeholder='Email' />
         <Text style={styles.headTxt}>Date of Birth</Text>
-        <Text style={styles.valueTxt}>{res.date_of_birth}</Text>
+        <TextInput style={styles.input} placeholder='Date of Birth' />
         <Text style={styles.headTxt}>Phone number</Text>
-        <Text style={styles.valueTxt}>{res.phone_number}</Text>
+        <TextInput style={styles.input} placeholder='Phone number' />
         <Text style={styles.headTxt}>Gender</Text>
-        <Text style={styles.valueTxt}>{res.gender}</Text>
+        <TextInput style={styles.input} placeholder='Gender' />
         <Text style={styles.headTxt}>Region</Text>
-        <Text style={styles.valueTxt}>{res.region}</Text>
+        <TextInput style={styles.input} placeholder='Region' />
         <Text style={styles.headTxt}>Bio</Text>
-        <Text style={styles.valueTxt}>{res.bio}</Text>
+        <TextInput style={styles.input} placeholder='Bio' />
         <Text style={styles.headTxt}>Account creation</Text>
         <Text style={styles.valueTxt}>{res.created_at}</Text>
         <Link style={styles.btn} href='/edit_details'>
-          <Text style={styles.btnText}>Edit Details</Text>
+          <Text style={styles.btnText}>Save details</Text>
         </Link>
       </View>
 
     </View>
+    </ScrollView>
   );
 }
 
@@ -91,12 +94,17 @@ const styles = StyleSheet.create({
   },
   headTxt: {
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 15,
+    color: '#ff3456'
   },
   valueTxt: {
-    fontSize: 16,
-    color: "#5f5f5f",
-    fontWeight: '300'
+    fontSize: 14,
+  },
+  input: {
+    backgroundColor: '#f1f1f1',
+    width: '100%',
+    padding: 15,
+    borderRadius: 3,
   },
   img: {
     width: 100,

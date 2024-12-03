@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         padding: 15,
         width: '100%',
         borderRadius: 60,
-        marginTop: 20,
+        marginBottom: 20,
     },
     btnText: {
         color: "#fff",
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     tempText: {
         textAlign: 'center',
         marginTop: 20,
+        marginBottom: 5,
         fontWeight: '600',
     }
 })

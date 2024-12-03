@@ -96,6 +96,8 @@ export default function HomeScreen() {
           <Directs name="Scanner" all='/(tabs)/scan' bel={<MaterialCommunityIcons name="qrcode-scan" size={24} color="#fff" />} />
           <Directs name="Show QR" all="/qrcode" bel={<AntDesign name="qrcode" size={24} color="#fff" />} />
           <Directs name="History" all="/(tabs)/history" bel={<FontAwesome6 name="arrow-right-arrow-left" size={24} color="#fff" />} />
+          <Directs name="Book Tickets" all="/book_tickets" bel={<MaterialCommunityIcons name="movie-open" size={24} color="#fff" />} />
+
         </View>
 
         <Text style={styles.subText}>Friends</Text>
