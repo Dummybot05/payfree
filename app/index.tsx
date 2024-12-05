@@ -8,6 +8,9 @@ export default function Home() {
             <Pressable  onPress={() => { router.push('/welcome') }}>
                 <Text style={styles.link}>Welcome Screen</Text>
             </Pressable>
+            <Pressable  onPress={() => { router.push('/edit_details') }}>
+                <Text style={styles.link}>Edit Details</Text>
+            </Pressable>
         </View>
     );
 }

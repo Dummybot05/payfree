@@ -31,6 +31,11 @@ export default function RootLayout() {
     },
     headerTintColor: '#fff'
 }} />
+<Stack.Screen name="people" options={{ headerStyle: {
+      backgroundColor: "#ff3456",
+    },
+    headerTintColor: '#fff'
+}} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

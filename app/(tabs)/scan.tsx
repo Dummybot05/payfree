@@ -1,12 +1,12 @@
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
 import { TextInput, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-// import {  } from 'react-native-gesture-handler';
 import { router } from 'expo-router';
 
 export default function App() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [camData, setCamData] = useState();
+  const [camData, setCamData] = useState<string>();
+  const [price, onChangePrice] = useState<string>();
 
   if (!permission) {
     return <View />;
@@ -16,7 +16,9 @@ export default function App() {
     return (
       <View style={styles.container}>
         <Text style={styles.message}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <TouchableOpacity style={styles.btn} onPress={requestPermission} >
+          <Text style={styles.btnText}>grant permission</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -25,12 +27,12 @@ export default function App() {
     <View style={styles.container}>
       {camData ? <View>
         <Text style={styles.text}>Enter Amount</Text>
-        <TextInput style={styles.input} placeholder='Enter Amount' />
+        <TextInput style={styles.input} placeholder='Enter Amount' value={price} onChangeText={onChangePrice} />
         <TouchableOpacity style={styles.btn} onPress={() => router.push('/')} >
           <Text style={styles.btnText}>Pay</Text>
         </TouchableOpacity>
       </View> :
-        <CameraView style={styles.camera} facing='back' onBarcodeScanned={(data) => setCamData(data)} >
+        <CameraView style={styles.camera} facing='back' onBarcodeScanned={(data) => setCamData(data.data)} >
 
         </CameraView>
       }

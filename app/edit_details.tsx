@@ -55,14 +55,20 @@ export default function Profile() {
         <Image source={{ uri: 'https://picsum.photos/100' }} style={styles.img} />
         <Text style={styles.headTxt}>User ID</Text>
         <Text style={styles.valueTxt}>{res.uuid}</Text>
-        <Text style={styles.headTxt}>Name</Text>
-        <TextInput style={styles.input} placeholder='Username' />
+        <Text style={styles.headTxt}>User Name</Text>
+        <TextInput style={styles.input} placeholder='User name' />
+        <Text style={styles.headTxt}>First Name</Text>
+        <TextInput style={styles.input} placeholder='First name' />
+        <Text style={styles.headTxt}>Last Name</Text>
+        <TextInput style={styles.input} placeholder='Last name' />
         <Text style={styles.headTxt}>Email</Text>
         <TextInput style={styles.input} placeholder='Email' />
         <Text style={styles.headTxt}>Date of Birth</Text>
         <TextInput style={styles.input} placeholder='Date of Birth' />
         <Text style={styles.headTxt}>Phone number</Text>
         <TextInput style={styles.input} placeholder='Phone number' />
+        <Text style={styles.headTxt}>Spoken language</Text>
+        <TextInput style={styles.input} placeholder='language' />
         <Text style={styles.headTxt}>Gender</Text>
         <TextInput style={styles.input} placeholder='Gender' />
         <Text style={styles.headTxt}>Region</Text>
@@ -71,7 +77,7 @@ export default function Profile() {
         <TextInput style={styles.input} placeholder='Bio' />
         <Text style={styles.headTxt}>Account creation</Text>
         <Text style={styles.valueTxt}>{res.created_at}</Text>
-        <Link style={styles.btn} href='/edit_details'>
+        <Link style={styles.btn} href='/profile'>
           <Text style={styles.btnText}>Save details</Text>
         </Link>
       </View>
@@ -103,13 +109,13 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#f1f1f1',
     width: '100%',
-    padding: 15,
+    padding: 10,
     borderRadius: 3,
   },
   img: {
-    width: 100,
-    height: 100,
-    borderRadius: 2,
+    width: '100%',
+    height: 300,
+    borderRadius: 10,
   },
   btn: {
     backgroundColor: '#ff3456',

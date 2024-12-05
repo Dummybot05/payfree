@@ -46,7 +46,7 @@ export default function History() {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.date}>{date}</Text>
         {status ? <Text style={[styles.amount, { color: '#00c000' }]}>+ {money}</Text>
-          : <Text style={[styles.amount, { color: '#ff3456' }]}>- {money}</Text>}
+          : <Text style={[styles.amount, { color: '#ff3456' }]}>- ${money}</Text>}
         <Text style={styles.status}>{status ? 'Credited' : 'Debited'}</Text>
       </View>
     )
