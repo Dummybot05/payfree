@@ -84,7 +84,7 @@ export default function HomeScreen() {
           <Directs name="Book Tickets" all="/book_tickets" bel={<MaterialCommunityIcons name="movie-open" size={24} color="#fff" />} />
         </View>
 
-        <Text style={styles.subText}>Friends</Text>
+        <Text style={styles.subText}>People</Text>
         <View style={styles.actions}>
               <Profile name="person1" pic="https://picsum.photos/101" url="/people" />
               <Profile name="person2" pic="https://picsum.photos/102" url="/people" />
@@ -168,10 +168,10 @@ const styles = StyleSheet.create({
   subText: {
     width: '90%',
     marginLeft: '5%',
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '800',
     color: '#ff3456',
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 10,
   }
 });

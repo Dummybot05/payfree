@@ -70,7 +70,7 @@ export default function Profile() {
         <TextInput style={styles.input} placeholder='Bio' value={res.bio} />
         <Text style={styles.headTxt}>Account creation</Text>
         <Text style={styles.valueTxt}>{res.created_at}</Text>
-        <Link style={styles.btn} href='/profile'>
+        <Link style={styles.btn} href='../'>
           <Text style={styles.btnText}>Save details</Text>
         </Link>
       </View>

@@ -3,20 +3,17 @@ import { StatusBar } from "expo-status-bar";
 import { Link } from "expo-router";
 
 export default function Welcome() {
-
     return (
         <View style={styles.container}>
-            <StatusBar style="auto" animated={true} backgroundColor="#ff3456"
-            hidden={false} translucent={false}
-            />
+            <StatusBar style="auto" animated={true} backgroundColor="#ff3456" hidden={false} translucent={false} />
             <View style={styles.stepContainer}>
-            <View style={styles.company}>
+                <View style={styles.company}>
                     <Image source={require("../assets/images/logo.png")}
                         style={styles.logo}
                     />
                     <Text style={styles.title}>Pay Free</Text>
                 </View>
-                <Text style={styles.subText}>Welcome to <Text style={{ fontWeight: '700' }}>pay free</Text> payment app</Text>
+                <Text style={styles.subText}>Welcome to pay free payment app</Text>
                 <Text style={styles.tempText}>Let's get started</Text>
                 <Link style={styles.btn} href="/signup" >
                     <Text style={styles.btnText}>Get Started</Text>
@@ -66,14 +63,13 @@ const styles = StyleSheet.create({
         color: "#ff3456",
         textAlign: 'center',
         fontWeight: '600',
-        marginTop: 40,
+        marginTop: 20
     },
     btn: {
         backgroundColor: '#ff3456',
         padding: 15,
         width: '100%',
         borderRadius: 60,
-        marginBottom: 20,
     },
     btnText: {
         color: "#fff",
@@ -83,8 +79,7 @@ const styles = StyleSheet.create({
     },
     tempText: {
         textAlign: 'center',
-        marginTop: 20,
-        marginBottom: 5,
         fontWeight: '600',
+        marginTop: 20,
     }
 })
