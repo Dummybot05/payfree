@@ -77,7 +77,7 @@ export default function HomeScreen() {
         <Text style={styles.subText}>Actions</Text>
         <View style={styles.actions}>
           <Directs name="Profile" all='/profile' bel={<MaterialIcons name="person" size={24} color="#fff" />} />
-          <Directs name="Pay CID" all="/qrcode" bel={<Entypo name="arrow-up" size={24} color="#fff" />} />
+          <Directs name="Pay CID" all="/paycid" bel={<Entypo name="arrow-up" size={24} color="#fff" />} />
           <Directs name="Scanner" all='/(tabs)/scan' bel={<MaterialCommunityIcons name="qrcode-scan" size={24} color="#fff" />} />
           <Directs name="Show QR" all="/qrcode" bel={<AntDesign name="qrcode" size={24} color="#fff" />} />
           <Directs name="History" all="/(tabs)/history" bel={<FontAwesome6 name="arrow-right-arrow-left" size={24} color="#fff" />} />

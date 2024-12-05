@@ -3,18 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'expo-router';
-// import {  } from 'react-native-gesture-handler';
 
 export default function Profile() {
-  const [res, setRes] = useState<any>({
-    "uuid": "",
-    "user_name": "",
-    "email": "",
-    "date_of_birth": "",
-    "gender": "",
-    "region": "",
-    "bio": ""
-  });
+  const [res, setRes] = useState<any>({ "uuid": "" });
 
   async function sessData() {
     let output: any;
@@ -52,29 +43,31 @@ export default function Profile() {
     <ScrollView>
     <View style={styles.container}>
       <View style={styles.stepContainer}>
-        <Image source={{ uri: 'https://picsum.photos/100' }} style={styles.img} />
+        <Image source={{ uri: `https://eu.ui-avatars.com/api/?name=${res.user_name}&size=250&background=random` }} style={styles.img} />
         <Text style={styles.headTxt}>User ID</Text>
         <Text style={styles.valueTxt}>{res.uuid}</Text>
+        <Text style={styles.headTxt}>Profile Picture URL</Text>
+        <TextInput style={styles.input} placeholder='Picture url' value={res.profile_picture_url} />
         <Text style={styles.headTxt}>User Name</Text>
-        <TextInput style={styles.input} placeholder='User name' />
+        <TextInput style={styles.input} placeholder='User name' value={res.user_name} />
         <Text style={styles.headTxt}>First Name</Text>
-        <TextInput style={styles.input} placeholder='First name' />
+        <TextInput style={styles.input} placeholder='First name' value={res.first_name} />
         <Text style={styles.headTxt}>Last Name</Text>
-        <TextInput style={styles.input} placeholder='Last name' />
+        <TextInput style={styles.input} placeholder='Last name' value={res.last_name} />
         <Text style={styles.headTxt}>Email</Text>
-        <TextInput style={styles.input} placeholder='Email' />
+        <TextInput style={styles.input} placeholder='Email' value={res.email} />
         <Text style={styles.headTxt}>Date of Birth</Text>
-        <TextInput style={styles.input} placeholder='Date of Birth' />
+        <TextInput style={styles.input} placeholder='Date of Birth' value={res.date_of_birth} />
         <Text style={styles.headTxt}>Phone number</Text>
-        <TextInput style={styles.input} placeholder='Phone number' />
+        <TextInput style={styles.input} placeholder='Phone number' value={res.phone_number} />
         <Text style={styles.headTxt}>Spoken language</Text>
-        <TextInput style={styles.input} placeholder='language' />
+        <TextInput style={styles.input} placeholder='Language' value={res.language} />
         <Text style={styles.headTxt}>Gender</Text>
-        <TextInput style={styles.input} placeholder='Gender' />
+        <TextInput style={styles.input} placeholder='Gender' value={res.gender} />
         <Text style={styles.headTxt}>Region</Text>
-        <TextInput style={styles.input} placeholder='Region' />
+        <TextInput style={styles.input} placeholder='Region' value={res.region} />
         <Text style={styles.headTxt}>Bio</Text>
-        <TextInput style={styles.input} placeholder='Bio' />
+        <TextInput style={styles.input} placeholder='Bio' value={res.bio} />
         <Text style={styles.headTxt}>Account creation</Text>
         <Text style={styles.valueTxt}>{res.created_at}</Text>
         <Link style={styles.btn} href='/profile'>

@@ -52,7 +52,7 @@ export default function Profile() {
 
     <View style={styles.container}>
       <View style={styles.stepContainer}>
-        <Image source={{ uri: `${res.profile_picture_url}` }} style={styles.img} />
+        <Image source={{ uri: `https://eu.ui-avatars.com/api/?name=${res.user_name}&size=250&background=random` }} style={styles.img} />
         <Text style={styles.headTxt}>User ID</Text>
         <Text style={styles.valueTxt2}>{res.uuid}</Text>
         <Text style={styles.headTxt}>User Name</Text>
