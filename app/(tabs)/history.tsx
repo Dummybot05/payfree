@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-async function sessData() {
+async function getSessionToken() {
   let output: any;
   try {
     const value = await AsyncStorage.getItem('token');
@@ -22,7 +22,7 @@ export default function History() {
   const [search, onChangeSearch] = React.useState('');
   const [hist, setHist] = React.useState([]);
 
-  sessData().then(outss => {
+  getSessionToken().then(outss => {
     axios.get(`${process.env.EXPO_PUBLIC_API_URL}/history`, {
       headers: {
         'Authorization': `Bearer ${outss}`

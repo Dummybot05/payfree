@@ -74,14 +74,16 @@ export default function Login() {
             setLoading(true);
             await axios.post(url, data, config)
                 .then((response) => {
-                    if(response.data.status == 200) {
+                    if(response.data.accept) {
                         storeDataTemp(response.data.token)
                         router.push('/(tabs)');
                         return;
+                    } else {
+                        setResponse(response.data);
                     }
                 })
                 .catch((error) => {
-                    setResponse(error.response.data);
+                    setResponse(error.message);
                     return;
                 });
         } catch (error: any) {

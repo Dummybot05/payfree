@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-async function sessData() {
+async function getSessionToken() {
    let output: any;
    try {
       const value = await AsyncStorage.getItem('token');
@@ -21,7 +21,7 @@ async function sessData() {
 
 export default function Qrcode() {
    const [imgg, setImgg] = useState();
-   sessData().then(outss => {
+   getSessionToken().then(outss => {
       axios.get(`${process.env.EXPO_PUBLIC_API_URL}/showqr`, {
          headers: {
             'Authorization': `Bearer ${outss}`
