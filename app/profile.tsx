@@ -1,6 +1,6 @@
 import { Text, Image, StyleSheet, View, Pressable, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'expo-router';
 
@@ -15,37 +15,38 @@ export default function Profile() {
     "bio": ""
   });
 
-  async function getSessionToken() {
-    let output: any;
+  async function getSessionToken(): Promise<string | null> {
     try {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-        output = value;
-      } else {
-        output = null
-      }
-    } catch (err: any) {
-      output = err.message
+      const token = await AsyncStorage.getItem("token");
+      return token !== null ? token : null;
+    } catch (error: any) {
+      return null;
     }
-    return output;
-  };
+  }
 
-  getSessionToken().then((sess) => {
-    const url = `${process.env.EXPO_PUBLIC_API_URL}/home`;
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sess}`
-      }
-    };
-    axios.get(url, config)
-      .then(function (response: any) {
-        setRes(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  })
+  useEffect(() => {
+    getSessionToken()
+      .then((token) => {
+        const url = `${process.env.EXPO_PUBLIC_API_URL}/profile`;
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        };
+        axios
+          .get(url, config)
+          .then(function (response: any) {
+            setRes(response.data.message)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+     }).catch(function (error) {
+      console.log(error);
+    });
+  }, [])
+  
 
   return (
     <ScrollView>
@@ -54,13 +55,13 @@ export default function Profile() {
       <View style={styles.stepContainer}>
         <Image source={{ uri: `https://eu.ui-avatars.com/api/?name=${res.user_name}&size=250&background=random` }} style={styles.img} />
         <Text style={styles.headTxt}>User ID</Text>
-        <Text style={styles.valueTxt2}>{res.uuid}</Text>
+        <Text style={styles.valueTxt2}>{res.uuid  || 'Edit/update uuid'}</Text>
         <Text style={styles.headTxt}>User Name</Text>
-        <Text style={styles.valueTxt2}>{res.user_name.toUpperCase()}</Text>
+        <Text style={styles.valueTxt2}>{res.user_name || 'Edit/update user name'}</Text>
         <Text style={styles.headTxt}>Email</Text>
-        <Text style={styles.valueTxt2}>{res.email.toUpperCase()}</Text>
+        <Text style={styles.valueTxt2}>{res.email  || 'Edit/update email'}</Text>
         <Text style={styles.headTxt}>First Name</Text>
-        <Text style={styles.valueTxt}>{res.first_name   || 'Edit/update first name'}</Text>
+        <Text style={styles.valueTxt}>{res.first_name  || 'Edit/update first name'}</Text>
         <Text style={styles.headTxt}>Last Name</Text>
         <Text style={styles.valueTxt}>{res.last_name  || 'Edit/update last name'}</Text>
         <Text style={styles.headTxt}>Date of Birth</Text>

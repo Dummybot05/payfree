@@ -1,13 +1,11 @@
 import { Text, Image, StyleSheet, View, TextInput, Pressable} from "react-native";
 import { router, Link } from "expo-router";
 import axios from 'axios';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CheckBox from '@react-native-community/checkbox';
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const storeDataTemp = async (value: any) => {
     try {
@@ -40,10 +38,7 @@ export default function Signup() {
     const [passVisible, setPassVisible] = useState<boolean>(true);
     const [passIcon, setPassIcon] = useState<any>(<AntDesign name="eye" size={24} color={"#ff3456"} />);
 
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
-
-    
-
+    const [toggleCheckBox, setToggleCheckBox] = useState(false);
     
 
     const checkDataValid = () => {
@@ -71,52 +66,39 @@ export default function Signup() {
         return true;
     }
 
-    
     const [loading, setLoading] = useState<boolean>(false);
     const [response, setResponse] = useState<any>({ message: '' });
-    
-    const url = `${process.env.EXPO_PUBLIC_API_URL}/signup`;
-    const data = {
-        username: username,
-        email: email,
-        password: password
-    };
-    const config = {
-        headers: {
+
+    const checkData = () => {
+       if(!checkDataValid()) return;
+       setLoading(true);
+       const url = `${process.env.EXPO_PUBLIC_API_URL}/signup`;
+       const data = {
+          username: username,
+          email: email,
+          password: password
+       };
+       const config = {
+          headers: {
             'Content-Type': 'application/json'
-        }
-    };
-
-    async function checkData() {
-        if(!checkDataValid()) return;
-        try {
-            setLoading(true);
-            await axios.post(url, data, config)
-                .then((response) => {
-                    if(response.data.status == 200) {
-                        storeDataTemp(response.data.token);
-                        
-                        router.push('/(tabs)');
-                        return;
-                    }
-                })
-                .catch((error) => {
-                    setResponse(error.response.data);
-                    return;
-                });
-        } catch (error: any) {
-            setError(error.message);
-            return;
-        } finally {
-            setLoading(false);
-        }
-    }
-
-
-   
-
-    return (
+          }
+       };
        
+       axios
+          .post(url, data, config)
+          .then(function (response) {
+            if(response.data.accept) {
+               storeDataTemp(response.data.token);
+               router.push('/(tabs)');
+            }
+          })
+          .catch(function (error) {
+            setError(error.message);
+          });
+        setLoading(false);
+    };
+    
+    return (
         <View style={styles.container}>
             <View style={styles.stepContainer}>
                 <View style={styles.company}>

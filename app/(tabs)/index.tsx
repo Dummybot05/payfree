@@ -1,4 +1,3 @@
-import { MaterialIcons } from "@expo/vector-icons";
 import {
   Vibration,
   StyleSheet,
@@ -6,78 +5,71 @@ import {
   Text,
   View,
   Pressable,
-  Image,
 } from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import {
+  MaterialIcons,
+  MaterialCommunityIcons,
+  FontAwesome6,
+  AntDesign,
+  Entypo,
+} from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState } from "react";
 import axios from "axios";
 import Profile from "../prof2";
-import Entypo from "@expo/vector-icons/Entypo";
+
+async function getSessionToken(): Promise<string | null> {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    return token !== null ? token : null;
+  } catch (error: any) {
+    return null;
+  }
+}
 
 export default function HomeScreen() {
   const [resp, setResp] = useState<any>({
-    uuid: "",
     user_name: "",
-    balance: null,
+    uuid: "",
+    balance: "",
   });
 
-  async function getSessionToken(): Promise<string | null> {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      return token !== null ? token : null;
-    } catch (error: any) {
-      console.error(error.message);
-      return null;
-    }
-  }
-
   useEffect(() => {
-    const defaultData = async () => {
-      try {
-        const token = await getSessionToken();
-        const url = `${process.env.EXPO_PUBLIC_API_URL}/home`;
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token ? `Bearer ${token}` : "",
-          },
-        };
-        const response = await axios.get(url, config);
-        setResp(response.data);
-      } catch (error: any) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
-
+    function defaultData() {
+      getSessionToken()
+        .then((token) => {
+          const url = `${process.env.EXPO_PUBLIC_API_URL}/home`;
+          const config = {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          };
+          axios
+            .get(url, config)
+            .then((response) => {
+              setResp(response.data.message);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
     defaultData();
-  }, []);
+  });
 
-  function Directs({ all, bel, name }: any) {
+  function ReDirects({ name, redirect, icon }: any) {
     return (
-      <View
-        style={{
-          width: "25%",
-          height: 100,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Pressable
-          style={styles.actionBtn}
-          onPress={() => {
-            Vibration.vibrate(100);
-            router.push(all);
-          }}
-        >
-          {bel}
+      <View style={styles.reicons}>
+        <Pressable style={styles.actionBtn} onPress={() => router.push(redirect)} >
+          {icon}
         </Pressable>
-        <Text style={{ fontWeight: "600", color: "#000" }}>{name}</Text>
+        <Text style={styles.texts}>{name}</Text>
       </View>
     );
   }
@@ -97,20 +89,20 @@ export default function HomeScreen() {
 
         <Text style={styles.subText}>Actions</Text>
         <View style={styles.actions}>
-          <Directs
+          <ReDirects
             name="Profile"
-            all="/profile"
-            bel={<MaterialIcons name="person" size={24} color="#fff" />}
+            redirect="/profile"
+            icon={<MaterialIcons name="person" size={24} color="#fff" />}
           />
-          <Directs
+          <ReDirects
             name="Pay CID"
-            all="/paycid"
-            bel={<Entypo name="arrow-up" size={24} color="#fff" />}
+            redirect="/paycid"
+            icon={<Entypo name="arrow-up" size={24} color="#fff" />}
           />
-          <Directs
+          <ReDirects
             name="Scanner"
-            all="/(tabs)/scan"
-            bel={
+            redirect="/(tabs)/scan"
+            icon={
               <MaterialCommunityIcons
                 name="qrcode-scan"
                 size={24}
@@ -118,15 +110,15 @@ export default function HomeScreen() {
               />
             }
           />
-          <Directs
+          <ReDirects
             name="Show QR"
-            all="/qrcode"
-            bel={<AntDesign name="qrcode" size={24} color="#fff" />}
+            redirect="/qrcode"
+            icon={<AntDesign name="qrcode" size={24} color="#fff" />}
           />
-          <Directs
+          <ReDirects
             name="History"
-            all="/(tabs)/history"
-            bel={
+            redirect="/(tabs)/history"
+            icon={
               <FontAwesome6
                 name="arrow-right-arrow-left"
                 size={24}
@@ -134,10 +126,10 @@ export default function HomeScreen() {
               />
             }
           />
-          <Directs
+          <ReDirects
             name="Book Tickets"
-            all="/book_tickets"
-            bel={
+            redirect="/book_tickets"
+            icon={
               <MaterialCommunityIcons
                 name="movie-open"
                 size={24}
@@ -261,5 +253,14 @@ const styles = StyleSheet.create({
     color: "#ff3456",
     marginTop: 10,
     marginBottom: 10,
+  },
+  reicons: {
+    width: "25%",
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  texts: {
+    fontWeight: "600",
   },
 });

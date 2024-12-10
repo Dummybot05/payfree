@@ -42,7 +42,7 @@ export default function Profile() {
     }
   }
 async function lll() {
-  getSessionToken().then((sess) => {
+  getSessionToken().then((token) => {
     const url = `${process.env.EXPO_PUBLIC_API_URL}/editdetails`;
     const data = {
       'propicurl': image,
@@ -60,7 +60,7 @@ async function lll() {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${sess}`
+        'Authorization': `Bearer ${token}`
       }
     };
     axios.put(url, data, config)

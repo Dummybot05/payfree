@@ -1,17 +1,16 @@
 import { Text, Image, StyleSheet, View, TextInput, Pressable } from "react-native";
-import { router, Link } from "expo-router";
-import axios from 'axios';
-import { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
-import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router, Link } from "expo-router";
+import { useState } from "react";
+import axios from 'axios';
 
-const storeDataTemp = async (value: any) => {
+async function storeDataTemp(value: any) {
     try {
         await AsyncStorage.setItem('token', value);
     } catch (error: any) {
-        console.log(error.message)
+        console.log(error.message);
     }
 };
 
@@ -52,7 +51,6 @@ export default function Login() {
         setError("");
         return true;
     }
-
     
     const [loading, setLoading] = useState<boolean>(false);
     const [response, setResponse] = useState<any>({ message: '' });
@@ -72,21 +70,16 @@ export default function Login() {
         if(!checkDataValid()) return;
         try {
             setLoading(true);
-            await axios.post(url, data, config)
-                .then((response) => {
-                    if(response.data.accept) {
-                        storeDataTemp(response.data.token)
-                        router.push('/(tabs)');
-                        return;
-                    } else {
-                        setResponse(response.data);
-                    }
-                })
-                .catch((error) => {
-                    setResponse(error.message);
-                    return;
-                });
+            const response = await axios.post(url, data, config);
+            if(response.data.accept) {
+                storeDataTemp(response.data.token)
+                router.push('/(tabs)');
+                return;
+            } else {
+                setResponse(response.data);
+            }
         } catch (error: any) {
+            setResponse(error.message);
             setError(error.message);
             return;
         } finally {

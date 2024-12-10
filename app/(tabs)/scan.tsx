@@ -39,6 +39,7 @@ export default function App() {
           },
         };
         const response = await axios.post(url, data, config);
+        console.log(response.data)
         return response.data;
       } catch (error: any) {
         console.error("Error fetching data:", error.message);

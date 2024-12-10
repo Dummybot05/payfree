@@ -3,36 +3,33 @@ import React from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-async function getSessionToken() {
-  let output: any;
+async function getSessionToken(): Promise<string | null> {
   try {
-    const value = await AsyncStorage.getItem('token');
-    if (value !== null) {
-      output = value;
-    } else {
-      output = null
-    }
-  } catch (err: any) {
-    output = err.message
+    const token = await AsyncStorage.getItem("token");
+    return token !== null ? token : null;
+  } catch (error: any) {
+    console.error(error.message);
+    return null;
   }
-  return output;
-};
+}
 
 export default function History() {
   const [search, onChangeSearch] = React.useState('');
   const [hist, setHist] = React.useState([]);
 
-  getSessionToken().then(outss => {
+  getSessionToken().then(token => {
     axios.get(`${process.env.EXPO_PUBLIC_API_URL}/history`, {
       headers: {
-        'Authorization': `Bearer ${outss}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     })
       .then(function (response) {
+        console.log(response);
         setHist(response.data)
       })
       .catch(function (error) {
-        console.log(error.data);
+        console.log(error);
       })
   })
 
@@ -60,7 +57,7 @@ export default function History() {
 
         {
           hist ? (
-            hist.map((data: { user_name: any; date: any; money: any; }, index: any) => (
+            hist.reverse().map((data: { user_name: any; date: any; money: any; }, index: any) => (
               <Trans
                 key={index}
                 name={data.user_name}

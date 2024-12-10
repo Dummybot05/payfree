@@ -1,13 +1,53 @@
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { router } from "expo-router";
 
 const paycid = () => {
   const [payCid, onChangePayCid] = React.useState<string>("");
+  const [pay, onChangePay] = React.useState<string>();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [response, setResponse] = React.useState<any>({ message: "" });
 
+  async function getSessionToken(): Promise<string | null> {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      return token !== null ? token : null;
+    } catch (error: any) {
+      console.error(error.message);
+      return null;
+    }
+  }
+
   function checkData() {
-    return "lol";
+    setLoading(true);
+    getSessionToken().then((sess) => {
+       const url = `${process.env.EXPO_PUBLIC_API_URL}/paycid`;
+       const config = {
+          headers: {
+            "Authorization": `Bearer ${sess}`
+          }
+       }
+       const payload = {
+          "reciever_id": payCid,
+          "money": pay
+        }
+        axios.post(url, payload, config)
+          .then(function (response: any) {
+            console.log(response)
+            if(response.data == 'success') {
+              alert('Payment Success')
+              router.push('../')
+            } else {
+              alert('Failed Payment')
+            }
+            setLoading(false)
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+    })
   }
 
   return (
@@ -23,7 +63,7 @@ const paycid = () => {
         <TextInput
           style={styles.input}
           placeholder="Enter Amount"
-          onChangeText={onChangePayCid}
+          onChangeText={onChangePay}
         />
         <Pressable style={styles.btn} disabled={loading} onPress={checkData}>
           <Text style={styles.btnText}>Pay</Text>
